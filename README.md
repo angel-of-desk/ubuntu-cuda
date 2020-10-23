@@ -38,7 +38,7 @@ sudo apt install build-essential
 ```
 
 In order for the CUDA installer to run sucessfully, the nouveau driver must be selected in Ubunut's `Software & Updates` window.
-Navigate to `Additional Drivers` sub-menu to verify `Using X.Org X server` is selected.  Skip to the **Download CUDA** section of this
+Navigate to `Additional Drivers` sub-menu to verify `Using X.Org X server` is selected.  Skip to the **Blacklist Nouveau** section of this
 README if it's `X.Org` is already selected.
 
 If NVIDIA's driver is active this implies the NVIDIA driver is installed.  
