@@ -1,42 +1,36 @@
 
 
-# Installing NVIDIA's CUDA Toolkit With Fresh Install of Ubuntu
+# Installing NVIDIA's CUDA Toolkit With A Fresh Install of Ubuntu
 
 Create a bootable usb drive with [Ubuntu 20.04](https://releases.ubuntu.com/20.04/) 
 
+Configure USB Boot from BIOS
 
-Configuring BIOS to boot up from USB
-
+Save and Exit
 
 Select `Install with Safe Graphics` when the ubuntu prompt appears.
 
-
-Once the installation process is underway, in the Updates and Other Software prompt select **only** the following option:
+Once the installation process is underway, in the `Updates and Other Software` prompt select *only* the following option:
 
 -Minimal Installation
 
-Then when prompted, select:
+Continue, and when prompted, select:
 
 Erase disk and install
 
-**NOTE:**  This guide assumes you are setting up a Linux-only machine.
-
-**For Lenovo Legion:** It is very likley after rebooting, the display driver will have issues, and the screen will not display correctly.
--Leave the garbled display on for about 10 seconds.  
--Briefly press power button to sleep. 
--Wait for the display to shut off and power button to begin slowly pulsing.
--Press power button again to wake up.
--You should now see a working GUI with a login prompt.
+**NOTE:**  This guide assumes you are setting up a Linux-only Lenovo Legion. It is very likley after rebooting, the display driver will have issues,
+and the screen will not display correctly.  Try these steps to get a working GUI:
+- Leave the garbled display on for about 10 seconds.  
+- Briefly press power button to sleep. 
+- Wait for the display to shut off and power button to begin slowly pulsing.
+- Press power button again to wake up.
+- You should now see a working GUI with a login prompt.
 
 
 ## Prerequisites
 
-Verify `gcc` is installed:
-```
-which gcc
-```
+Install `build-essential` in order to use `gcc` (the CUDA install process depends on it).
 
-If that command doesn't produce any output, install `build-essential`:
 ```
 sudo apt update
 
@@ -44,10 +38,12 @@ sudo apt install build-essential
 ```
 
 In order for the CUDA installer to run sucessfully, the nouveau driver must be selected in Ubunut's `Software & Updates` window.
-Navigate to `Additional Drivers` sub-menu to verify `Using X.Org X server` is selected.  Skip to **Download CUDA** if it's already selected.
+Navigate to `Additional Drivers` sub-menu to verify `Using X.Org X server` is selected.  Skip to the **Download CUDA** section of this
+README if it's `X.Org` is already selected.
 
 If NVIDIA's driver is active this implies the NVIDIA driver is installed.  
 Select `Using X.Org X server` and apply changes.  We must now remove the installed NVIDIA driver.
+
 To uninstall run:
 ```
 sudo apt-get remove --purge '^nvidia-.*'
@@ -80,10 +76,12 @@ $ sudo update-initramfs -u
 
 
 ## Download CUDA
+
 Navigate to the Downloads folder to pull the CUDA run file.
 
 ```
-cd ~/Downloads && \
+cd ~/Downloads
+
 wget https://developer.download.nvidia.com/compute/cuda/11.1.0/local_installers/cuda_11.1.0_455.23.05_linux.run
 ```
 
