@@ -128,6 +128,7 @@ Run the installer:
 sudo sh cuda_11.1.0_455.23.05_linux.run
 ```
 
+If the installation went well, you should see success output in the console after some time.  
 Post-install actions from [CUDA installation instructions Section 8](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#post-installation-actions):
 
 ```
