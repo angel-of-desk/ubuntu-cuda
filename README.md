@@ -12,7 +12,7 @@ Select `Install with Safe Graphics` when the ubuntu prompt appears.
 
 Once the installation process is underway, in the `Updates and Other Software` prompt select *only* the following option:
 
--Minimal Installation
+- Minimal Installation
 
 Continue, and when prompted, select:
 
