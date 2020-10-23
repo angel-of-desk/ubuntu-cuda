@@ -1,4 +1,6 @@
-##Ubuntu Setup
+
+
+# Installing NVIDIA's CUDA Toolkit With Fresh Install of Ubuntu
 
 Create a bootable usb drive with [Ubuntu 20.04](https://releases.ubuntu.com/20.04/) 
 
@@ -9,38 +11,44 @@ Configuring BIOS to boot up from USB
 Select `Install with Safe Graphics` when the ubuntu prompt appears.
 
 
-Once the installation process is underway, in the Updates and Other Software prompt select the following options:
+Once the installation process is underway, in the Updates and Other Software prompt select **only** the following option:
 
 -Minimal Installation
--Install third-party software for graphics and Wi-Fi hardware and additional items 
 
-**NOTE:** NVIDIA drivers installed as a result of this setting will be removed later. This proves less troublesome
-than not initially installing them.
+Then when prompted, select:
 
 Erase disk and install
 
-After installation, display driver might have issues, and screen will not display correctly.  
-Briefly press power button to sleep. When display shuts off and power button slowly pulses, press power button again to wake up.
+**NOTE:**  This guide assumes you are setting up a Linux-only machine.
 
-If you have issues logging in (e.g. desktop won’t load) power cycle (don’t restart), repeat previous steps.
+**For Lenovo Legion:** It is very likley after rebooting, the display driver will have issues, and the screen will not display correctly.
+-Leave the garbled display on for about 10 seconds.  
+-Briefly press power button to sleep. 
+-Wait for the display to shut off and power button to begin slowly pulsing.
+-Press power button again to wake up.
+-You should now see a working GUI with a login prompt.
 
 
-##Download CUDA
-Navigate to the Downloads folder to pull the CUDA run file.
+## Prerequisites
 
+Verify `gcc` is installed:
 ```
-cd ~/Downloads && \
-wget https://developer.download.nvidia.com/compute/cuda/11.1.0/local_installers/cuda_11.1.0_455.23.05_linux.run
+which gcc
 ```
 
-##Uninstall Current NVIDIA Driver
+If that command doesn't produce any output, install `build-essential`:
+```
+sudo apt update
 
-In order to remove the pre-installed NVIDIA driver and associated files, Open Ubunut's `Software & Updates` window
-and select the `Additional Drivers` sub-menu.
+sudo apt install build-essential
+```
 
-??????
+In order for the CUDA installer to run sucessfully, the nouveau driver must be selected in Ubunut's `Software & Updates` window.
+Navigate to `Additional Drivers` sub-menu to verify `Using X.Org X server` is selected.  Skip to **Download CUDA** if it's already selected.
 
-To uninstall most nvidia files run:
+If NVIDIA's driver is active this implies the NVIDIA driver is installed.  
+Select `Using X.Org X server` and apply changes.  We must now remove the installed NVIDIA driver.
+To uninstall run:
 ```
 sudo apt-get remove --purge '^nvidia-.*'
 ```
@@ -57,7 +65,7 @@ Manually uninstall those packages the same way:
 sudo apt-get remove --purge <package-name>
 ```
 
-##Blacklist Nouveau
+## Blacklist Nouveau
 
 Create a file at `/etc/modprobe.d/blacklist-nouveau.conf` with the following contents: 
 ```
@@ -71,7 +79,16 @@ $ sudo update-initramfs -u
 ```
 
 
-##Configure Ubuntu To Boot Into A Command Console
+## Download CUDA
+Navigate to the Downloads folder to pull the CUDA run file.
+
+```
+cd ~/Downloads && \
+wget https://developer.download.nvidia.com/compute/cuda/11.1.0/local_installers/cuda_11.1.0_455.23.05_linux.run
+```
+
+
+## Configure Ubuntu To Boot Into A Command Console
 
 First make a backup of the grub file in order to restore settings after installing CUDA.
 ```
@@ -104,7 +121,7 @@ Reboot:
 sudo reboot now
 ```
 
-##Install CUDA
+## Install CUDA
 
 Once you have reached the console prompt, login, and navigate to `~/Downloads` where the CUDA runner should be.
 
@@ -113,19 +130,30 @@ Run the installer:
 sudo sh cuda_11.1.0_455.23.05_linux.run
 ```
 
-Once installation completes, restore the original grub file and apply the changes:
+Post-install actions from [CUDA installation instructions Section 8](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#post-installation-actions):
+
 ```
-sudo mv /etc/default/grub.backup /etc/default/grub
+export PATH=/usr/local/cuda-11.1/bin${PATH:+:${PATH}}
 
-sudo update-grub
-
-sudo systemctl set-default graphical.target
+export LD_LIBRARY_PATH=/usr/local/cuda-11.1/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 ```
 
 Run the `device-node-verification.sh` script from the location it was downloaded:
 
 ```
 sudo ~/Downloads/device-node-verification.sh
+```
+
+You may see output stating some files already exist.  This is ok to ignore.
+
+
+Now restore the original grub file and apply the changes to reboot with a GUI:
+```
+sudo mv /etc/default/grub.backup /etc/default/grub
+
+sudo update-grub
+
+sudo systemctl set-default graphical.target
 ```
 
 Reboot:
