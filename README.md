@@ -14,9 +14,9 @@ Once the installation process is underway, in the `Updates and Other Software` p
 
 - Minimal Installation
 
-Continue, and when prompted, select:
+Continue. When prompted, select:
 
-Erase disk and install
+- Erase disk and install
 
 **NOTE:**  This guide assumes you are setting up a Linux-only Lenovo Legion. It is very likley after rebooting, the display driver will have issues,
 and the screen will not display correctly.  Try these steps to get a working GUI:
